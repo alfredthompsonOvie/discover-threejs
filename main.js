@@ -2,7 +2,7 @@ import './style.css'
 import { World } from './world/World';
 
 
-function main() {
+async function main() {
   const container = document.querySelector("#scene-container");
   const world = new World(container);
 
@@ -10,6 +10,11 @@ function main() {
   // console.log(world.renderer);
   // console.log(world.scene);
   
+  // complete async tasks
+  await world.init();
+
   world.start()
 }
-main();
+main().catch(err => {
+  console.error(err);
+});

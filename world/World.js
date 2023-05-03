@@ -7,7 +7,10 @@ import { createRenderer } from './systems/renderer';
 import { Resizer } from './systems/Resizer';
 import { Loop } from './systems/Loop';
 
-let camera, renderer, scene, loop;
+import { createControls } from './systems/controls.js';
+import { loadBirds } from './components/birds/birds';
+
+let camera, renderer, scene, loop, controls;
 
 class World {
   constructor(container) {
@@ -16,13 +19,20 @@ class World {
     renderer = createRenderer();
     loop = new Loop(camera, scene, renderer);
     container.append(renderer.domElement);
+    controls = createControls(camera, renderer.domElement);
 
-    const cube = createCube();
-    const light = createLights();
+    const { ambientLight, mainLight } = createLights();
+    
+    loop.updatables.push(controls);
+    scene.add(ambientLight, mainLight);
 
-    loop.updatables.push(cube);
+    // const cube = createCube();
+    // const light = createLights();
 
-    scene.add(cube, light);
+    // loop.updatables.push(cube);
+    // scene.add(cube, light);
+    
+    // scene.add(light);
 
     const resizer = new Resizer(container, camera, renderer);
     // resizer.onResize = () => {
@@ -37,6 +47,14 @@ class World {
   }
   stop() {
     loop.stop();
+  }
+  async init() {
+    const { parrot, stork, flamingo } = await loadBirds();
+
+    controls.target.copy(parrot.position);
+    loop.updatables.push(parrot, stork, flamingo);
+
+    scene.add(parrot, stork, flamingo);
   }
 }
 
