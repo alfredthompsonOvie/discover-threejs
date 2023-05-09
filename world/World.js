@@ -26,13 +26,13 @@ class World {
     loop.updatables.push(controls);
     scene.add(ambientLight, mainLight);
 
-    // const cube = createCube();
+    const cube = createCube();
     // const light = createLights();
 
-    // loop.updatables.push(cube);
+    loop.updatables.push(cube);
+    scene.add(cube);
     // scene.add(cube, light);
     
-    // scene.add(light);
 
     const resizer = new Resizer(container, camera, renderer);
     // resizer.onResize = () => {
@@ -48,14 +48,14 @@ class World {
   stop() {
     loop.stop();
   }
-  async init() {
-    const { parrot, stork, flamingo } = await loadBirds();
+  // async init() {
+  //   const { parrot, stork, flamingo } = await loadBirds();
 
-    controls.target.copy(parrot.position);
-    loop.updatables.push(parrot, stork, flamingo);
+  //   controls.target.copy(parrot.position);
+  //   loop.updatables.push(parrot, stork, flamingo);
 
-    scene.add(parrot, stork, flamingo);
-  }
+  //   scene.add(parrot, stork, flamingo);
+  // }
 }
 
 export { World }

@@ -11,7 +11,7 @@ async function main() {
   // console.log(world.scene);
   
   // complete async tasks
-  await world.init();
+  // await world.init();
 
   world.start()
 }
